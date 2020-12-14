@@ -1,9 +1,9 @@
  // стартовое состояние
-function matrixMaker(m, n) {
-	let matrix = new Array(m)
+function matrixMaker(columns, rows) {
+	let matrix = new Array(columns)
     .fill(null)
 	.map( () => 
-		new Array(n)
+		new Array(rows)
 		.fill(null)
 		.map(() => Math.floor( Math.random() * 2 )) 
 	);
@@ -11,8 +11,8 @@ function matrixMaker(m, n) {
 	return matrix; 
 }
 
-let board = matrixMaker(10, 9);
-console.log(board);
+let board = matrixMaker(2, 2);
+console.log(`Стартовое состояние:\n${board.join('\n')}\n`);
 
 
 // взаимодействие с соседями
@@ -29,7 +29,7 @@ function aliveNeighbors(i, j) {
 
 	// координаты соседей
 	let a = Check((i-1), board.length), b = Check((i+1), board.length);
-	let c = ((j-1), board[j].length), d = ((j+1), board[j].length);
+	let c = Check((j-1), board[j].length), d = Check((j+1), board[j].length);
 
 	// суммируем значения всех соседей
 	for (let f = a; f <= b; f++) {
@@ -40,7 +40,7 @@ function aliveNeighbors(i, j) {
 	return count;
 }	
 
-// смерть/возрождение
+// смерть или возрождение
 function cellsInteraction (arr) {
 	for (let i = 0; i < arr.length; i++) {
 		
@@ -56,9 +56,8 @@ function cellsInteraction (arr) {
 
 	}
 
-	console.log(arr);
-	return arr
+	console.log(`Текущее состояние:\n${arr.join('\n')}\n`);
 }
 
-cellsInteraction(board);
+setInterval(cellsInteraction, 1000, board);
 
