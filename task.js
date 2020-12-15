@@ -1,3 +1,8 @@
+ const fs = require('fs');
+ const pathToFile = process.argv[2]; // введите в консоль: node task.js pathToFile
+ const 	m = 10; //количество строк по умолчанию
+ const n = 10; //количество столбцов по умолчанию
+ 
  // стартовое состояние
 function matrixMaker(columns, rows) {
 	let matrix = new Array(columns)
@@ -11,7 +16,19 @@ function matrixMaker(columns, rows) {
 	return matrix; 
 }
 
-let board = matrixMaker(2, 2);
+let board = [];
+
+if (pathToFile) { //если передан путь к файлу со стартовым сосотоянием
+	try {
+		board = JSON.parse(fs.readFileSync(pathToFile));
+	} catch(err) { 
+		console.log(err.message, '\nПараметры матрицы установлены по умолчанию:\n');
+		board = matrixMaker(m, n); //параметры по умолчанию
+	}
+} else { //параметры по умолчанию
+	board = matrixMaker(m, n);
+}
+
 console.log(`Стартовое состояние:\n${board.join('\n')}\n`);
 
 
